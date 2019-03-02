@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https://haveagrapefruit.com 'unsafe-inline' gap:;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' https://d3cucvh1ek5u41.cloudfront.net data:;
+    ">
+    <title>Grapefruit</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
+
+    <script type="text/javascript" src="cordova.js"></script><!-- TODO: Exclude from Electron -->
+    <link href="css/compiled.css" rel="stylesheet">
+    <link rel="icon" href="img/logo.png">
+</head>
+<body class="theme-light">
+
+    <div id="application">
+        <!--
+        <div id="pagetitlebar">
+            <h3 class="mr-3 ml-5" id="pageTitle">&nbsp;</h3>
+        </div> -->
+
+        <div id="app">
+            <div id="toolbar" class="for-desktop">
+                    &nbsp;
+            </div>
+
+            <div id="basebar">
+                    &nbsp;
+            </div>
+
+            <div id="left-sidebar" class="for-desktop sidebar closed">
+                <div id="left-sidebar-close-button-container">
+                    <div id="left-sidebar-close-button" class="" onclick="Game.Menu.toggleSidebar('left', true)">
+                        <img style="width:40px" src="img/logo-with-face.png" alt="Card image cap">
+                    </div>
+                </div>
+                <div class="">
+                    <ul class="nav flex-column" id="daysmenu">
+                    </ul>
+                    <ul class="nav flex-column" id="daysmoremenu">
+                        <li class="nav-item nav-day">
+                            <a class="nav-link js-menuitem" data-page="moredays" href="#moredays">
+                                More
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav flex-column mt-4 pb-4">
+                        <li id="menu-secondary" class="nav-item nav-day">
+                            <a class="nav-link js-menuitem" data-page="reader" href="#reader">
+                                Read
+                            </a>
+                            <a class="nav-link js-menuitem" data-page="stats" href="#stats">
+                                Stats &amp; Trends
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav flex-column pb-4">
+                        <li id="menu-bottom" class="nav-item nav-day">
+                            <a class="nav-link js-menuitem" data-page="settings" href="#settings">
+                                Settings
+                            </a>
+                        </li>
+                        <li id="menu-bottom" class="nav-item nav-day">
+                            <a class="nav-link js-menuitem" data-page="help" href="#help">
+                                Help
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="content">
+                <div id="left-sidebar-content-cover" class="content-cover closed for-desktop for-android" onclick="Game.Menu.toggleSidebar('left')">&nbsp;</div>
+                <div id="left-sidebar-open-button-container" class="for-desktop for-android">
+                    <div id="left-sidebar-open-button" class="" onclick="Game.Menu.toggleSidebar('left')">
+                        <img style="width:40px" src="img/logo.png" alt="Open Menu">
+                    </div>
+                </div>
+
+                <div id="pages">
+                    <div class="page" id="page-home">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+<!--                         <div class="dropdown btn-toolbar mb-2 mb-md-0">
+                            <div class="js-saved-message" style="display:none">
+                                <small><span class="text-muted ml-1 mr-3">Saved</span></small>
+                            </div>
+                            <div class="fa-1x js-saving-message" style="display:none">
+                                <small><span class="text-muted ml-1 mr-3">Saving...</span></small>
+                            </div>
+                        </div>
+ -->
+    <script src="js/game.js" type="text/javascript"></script>
+</body>
+
+</html>
