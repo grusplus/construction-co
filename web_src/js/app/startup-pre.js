@@ -1,6 +1,8 @@
 // Not related to this file, but to set up for pages files that can come and go
 Game = {};
 
+const readline = require('readline-sync');
+
 function isElectron(){
     return typeof process !== 'undefined';
 }

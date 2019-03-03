@@ -7,6 +7,7 @@
  *
  */
 @import './vendors.js';
+@import './app/utils.js';
 @import './app/startup-pre.js';
 @import './web.js';
 // @import './test/test.js';

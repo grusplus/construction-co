@@ -59,7 +59,7 @@ if (!Object.prototype.forEach) {
             if (this == null) {
                 throw new TypeError('Not an object');
             }
-            thisArg = thisArg || window;
+            thisArg = thisArg || Game;
             for (var key in this) {
                 if (this.hasOwnProperty(key)) {
                     callback.call(thisArg, this[key], key, this);
