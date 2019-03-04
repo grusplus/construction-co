@@ -5,6 +5,15 @@
         cash: 500000,
         days: 30,
         currentDay: 0,
+        currentWorkerType: 'pro',
+        currentWorkerAmount: 0,
+        progress: {
+            percentage: 0,
+            materials: {
+                brick: 0,
+                wood: 0
+            }
+        },
         materials: {
             needs: {
                 brick: 1000,
@@ -27,6 +36,24 @@
                 }
             }
         },
+        workers: {
+            pro:{
+                max: 10,
+                cost: 10,
+                speed: {
+                    brick: 10,
+                    wood: 20
+                }
+            },
+            cheap:{
+                max: 5,
+                cost: 5,
+                speed: {
+                    brick: 8,
+                    wood: 18
+                }
+            }
+        },
         transactions: [
             {
                 material: 'brick',
@@ -37,22 +64,13 @@
         ]
     }, builder = {}, templates = {};
 
-    // builder.calculateInventory = function(){
-    //     p.materials.inventory.brick = 0;
-    //     p.materials.inventory.wood = 0;
-
-    //     p.transactions.forEach(function(transaction){
-    //         p.materials.inventory[transaction.material] += transaction.amount;
-    //     });
-    // }
-
     builder.doTransaction = function(material, amount, price){
-        p.transactions.push({material: material, amount: amount, price: price, day: Game.Builder.getCurrentDay()})
+        p.transactions.push({material: material, amount: amount, price: price, day: Game.Builder.getCurrentDay()});
         p.materials.inventory[material] = p.materials.inventory[material] + Number(amount);
         // console.debug(amount * price);
         // console.debug(Math.round(amount * price * 100));
         // console.debug(Math.round(amount * price * 100)/100)
-        p.cash = Math.round( (p.cash - (amount * price)) * 100) / 100
+        p.cash = Math.round( (p.cash - (amount * price)) * 100) / 100;
     };
 
     builder.getCurrentDay = function(){
@@ -90,17 +108,61 @@
         console.log("\nIt's day " + p.currentDay);
         builder.showStatus();
         builder.buy();
-        builder.showStatus();
+        builder.hireWorkers();
+        builder.build();
+
         return true;
-    }
+    };
+
+    builder.build = function() {
+        p.progress.materials.forEach(function(progressAmount, material){
+            let materialsLeft = p.materials.inventory[material];
+            let used = p.workers[p.currentWorkerType].speed;
+            let materialsUsed = Math.min(materialsLeft, used * p.currentWorkerAmount);
+
+            p.materials.inventory[material] -= materialsUsed;
+            p.progress.materials[material] += materialsUsed;
+        });
+
+        builder.updateProgress();
+    };
+
+    builder.updateProgress = function() {
+        let count = Object.keys(p.progress.materials).length;
+        p.progress.materials.forEach(function(progressAmount, material){
+            console.debug(progressAmount);
+            console.debug(material);
+            let materialPercentage = progressAmount / p.materials.needs[material];
+            console.debug(materialPercentage);
+            p.progress.percentage += (materialPercentage * 1/count);
+            console.debug((materialPercentage * 1/count));
+        });
+    };
+
+    builder.hireWorkers = function() {
+        let workers = ['Professionals', 'Labourers'];
+        let workerKeys = ['pro', 'cheap'];
+        let workerTypeIndex = readline.keyInSelect(workers, 'Which type of workers would you like today?');
+        p.currentWorkerType = workerKeys[workerTypeIndex];
+        let number = builder.askQuestion("How many " + workers[workerTypeIndex] + " do you want to hire?");
+        p.currentWorkerAmount = number;
+
+        let cost = Math.round( ((number * p.workers[p.currentWorkerType].cost)) * 100) / 100;
+        p.cash = p.cash - cost;
+        console.log("Today's worker cost: $" + cost);
+    };
 
     builder.showStatus = function(){
         console.log("\nBUDGET");
         console.log("$" + p.cash + " of $" + p.budget);
+        console.log("\nPROGRESS");
+        console.log("" + p.progress.percentage + "%");
+        console.log("Brick: " + p.progress.materials.brick + " of " + p.materials.needs.brick);
+        console.log("Wood: " + p.progress.materials.wood + " of " + p.materials.needs.wood);
         console.log("\nINVENTORY");
         console.log("Brick: " + p.materials.inventory.brick);
         console.log("Wood: " + p.materials.inventory.wood);
-    }
+    };
 
     builder.buy = function(){
         console.log("\nMARKETPLACE");
@@ -113,7 +175,7 @@
                 builder.doTransaction(material, amount, price);
             }
         });
-    }
+    };
 
     builder.askQuestion = function(question){
         return readline.question(question);
