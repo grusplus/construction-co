@@ -24,16 +24,8 @@
                 wood: 0,
             },
             costs: {
-                brick: {
-                    low: 0.50,
-                    mid: 0.89,
-                    hight: 1.50
-                },
-                wood: {
-                    low: 1.50,
-                    mid: 1.89,
-                    hight: 2.50
-                }
+                brick: 0.89,
+                wood: 0.89
             }
         },
         workers: {
@@ -117,9 +109,8 @@
     builder.build = function() {
         p.progress.materials.forEach(function(progressAmount, material){
             let materialsLeft = p.materials.inventory[material];
-            let used = p.workers[p.currentWorkerType].speed;
+            let used = p.workers[p.currentWorkerType].speed[material];
             let materialsUsed = Math.min(materialsLeft, used * p.currentWorkerAmount);
-
             p.materials.inventory[material] -= materialsUsed;
             p.progress.materials[material] += materialsUsed;
         });
@@ -130,12 +121,8 @@
     builder.updateProgress = function() {
         let count = Object.keys(p.progress.materials).length;
         p.progress.materials.forEach(function(progressAmount, material){
-            console.debug(progressAmount);
-            console.debug(material);
             let materialPercentage = progressAmount / p.materials.needs[material];
-            console.debug(materialPercentage);
             p.progress.percentage += (materialPercentage * 1/count);
-            console.debug((materialPercentage * 1/count));
         });
     };
 
@@ -156,7 +143,7 @@
         console.log("\nBUDGET");
         console.log("$" + p.cash + " of $" + p.budget);
         console.log("\nPROGRESS");
-        console.log("" + p.progress.percentage + "%");
+        console.log("" + Math.round(p.progress.percentage * 100) + "%");
         console.log("Brick: " + p.progress.materials.brick + " of " + p.materials.needs.brick);
         console.log("Wood: " + p.progress.materials.wood + " of " + p.materials.needs.wood);
         console.log("\nINVENTORY");

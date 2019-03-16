@@ -11,6 +11,14 @@ function isCordova(){
     return window.hasOwnProperty("cordova");
 }
 
+function d(message){
+    console.debug(message);
+}
+
+function l(message){
+    console.debug(message);
+}
+
 // Only Electron stuff
 if(false && isElectron()){
 
