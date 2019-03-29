@@ -81,7 +81,7 @@
         console.log("Let's build a house!\n");
 
         // let name = builder.askQuestion("What's your name?")
-        for($i = 0; $i < 30; $i++){
+        for($i = 0; $i < 26; $i++){
             let day = builder.doDay();
             if(!day){
                 console.log("Game over!");
@@ -97,7 +97,7 @@
             return false;
         }
         console.log("\n-------------------------");
-        console.log("\nIt's day " + p.currentDay);
+        console.log("\nIt's week " + p.currentDay);
         builder.showStatus();
         builder.buy();
         builder.hireWorkers();
@@ -135,8 +135,10 @@
         p.currentWorkerAmount = number;
 
         let cost = Math.round( ((number * p.workers[p.currentWorkerType].cost)) * 100) / 100;
+        console.log(p.cash);
         p.cash = p.cash - cost;
         console.log("Today's worker cost: $" + cost);
+        console.log(p.cash);
     };
 
     builder.showStatus = function(){
@@ -156,12 +158,23 @@
 
         p.materials.needs.forEach(function(needsAmount, material){
             // console.debug(material);
-            let price = p.materials.costs[material].mid;
-            let amount = builder.askQuestion("How many " + material + " would you like for $" + price  + "? ");
+            let price = builder.getThisWeeksPrice(material);
+            let amount = builder.askQuestion(price.prefix + "How many " + material + " would you like for $" + price.price + "? ");
             if(amount > 0){
                 builder.doTransaction(material, amount, price);
             }
         });
+    };
+
+    builder.getThisWeeksPrice = function(material){
+        let price = p.materials.costs[material];
+        let multiplier = (Math.random() * (1.3 - 0.7) + 0.7).toFixed(4);
+
+        let result = (price * multiplier).toFixed(2);
+        return {
+            price: result,
+            prefix: result < price ? "SALE! " : ""
+        };
     };
 
     builder.askQuestion = function(question){

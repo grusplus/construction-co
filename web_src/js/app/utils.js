@@ -1,3 +1,4 @@
+
 function indexOfMax(arrayToCheck) {
     if (arrayToCheck.length === 0) {
         return -1;
