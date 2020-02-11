@@ -6,8 +6,21 @@ Building a house. Buy materials. Try to outsmart the market.
 
 Use the app flag (m/c = mobile, d/e = desktop) to specify the destination.
 
-Development: `grunt compile --app=m`
-Production:  `grunt prepare --app=m`
+Development: `grunt d`
+Production:  `grunt p`
+
+## Status
+
+It's a little broken in this state. I wanted to move it to a browser interface but the NPM module for console input isn't there so need to swap it to web input. Not a problem there, really, just needs to be done.
+
+To get it running, run
+`npm install`
+
+Then
+`grunt d`
+
+Then in the build folder run
+`node game.js`
 
 ## Win conditions
 
